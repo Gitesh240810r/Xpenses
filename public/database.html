@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xpenses - Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <header class="fixed inset-x-0 top-0 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-2 shadow-lg z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold"><i class="fas fa-wallet mr-2"></i>Xpenses</h1>
+            <nav>
+                <ul class="flex items-center space-x-4">
+                    <li><a href="index.html" class="hover:text-gray-200">Dashboard</a></li>
+                    <li><a href="#" class="hover:text-gray-200">Expenses</a></li>
+                    <li><a href="#" class="hover:text-gray-200">Reports</a></li>
+                </ul>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="signInBtn" class="whenLoggedOut bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition duration-300 shadow-md flex items-center">
+                    <i class="fab fa-google mr-2"></i>Sign in with Google
+                </button>
+                <div class="whenLoggedIn flex items-center space-x-4">
+                    <span id="userDetails" class="text-sm"></span>
+                    <button id="signOutBtn" class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition duration-300 shadow-md flex items-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-20 p-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+            <h1 class="text-3xl font-bold mb-6 text-gray-800 flex items-center">
+                <i class="fas fa-database mr-3 text-blue-600"></i>Database
+            </h1>
+            <p class="text-gray-600 mb-4">This is the database page for managing your expense data.</p>
+            <div id="databaseContent" class="space-y-4">
+            </div>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyBd7qnmznFuyFA-YnZhf8meqydQnopTFtA",
+          authDomain: "xpenses-1df65.firebaseapp.com",
+          projectId: "xpenses-1df65",
+          storageBucket: "xpenses-1df65.firebasestorage.app",
+          messagingSenderId: "648665588881",
+          appId: "1:648665588881:web:db50fba2264e2abe5d8b30"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

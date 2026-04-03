@@ -3,9 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Xpenses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+
+    <header class="fixed inset-x-0 top-0 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-2 shadow-lg z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-bold"><i class="fas fa-wallet mr-2"></i>Xpenses</h1>
+            <nav class="flex items-center gap -5 ">
+                <ul class="flex items-center space-x-4">
+                    <li><a href="#" class="hover:text-gray-200">Dashboard</a></li>
+                    <li><a href="database.html" class="hover:text-gray-200">Database</a></li>
+                    <li><a href="#" class="hover:text-gray-200">Reports</a></li>
+                </ul>
+                <div class="flex items-center space-x-4">
+                <button id="signInBtn" class="whenLoggedOut bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition duration-300 shadow-md flex items-center">
+                    <i class="fab fa-google mr-2"></i>Sign in with Google
+                </button>
+                <div class="whenLoggedIn flex items-center space-x-4">
+                    <span id="userDetails" class="text-sm"></span>
+                    <button id="signOutBtn" class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition duration-300 shadow-md flex items-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+                    </button>
+                </div>
+            </div>
+            </nav>
+            
+        </div>
+    </header>
+
+    <div class="whenLoggedOut flex min-h-screen items-center justify-center p-5 pt-24 mb-6">
+            <h2 class="text-xl text-center font-semibold text-gray-800">Welcome, log in to track your expenses and be financially mindful about your spending!</h2>
+     </div>
+
+    <main class="hidden whenLoggedIn container mt-10 m-auto p-6">
+
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-5 max-w-5xl m-auto">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                    <i class="fas fa-plus-circle mr-2 text-blue-600"></i>Add New Expense
+                </h2>
+
+                <div class="flex flex-col gap-3 ">
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <input type="text" id="description" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Lunch at restaurant" required>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">Amount (₹)</label>
+                            <input type="number" id="amount" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="0.00" required>
+                        </div>
+                        <div>
+                            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                            <input type="date" id="date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select id="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                <option value="">Select Category</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="paymentMode" class="block text-sm font-medium text-gray-700 mb-1">Payment Mode</label>
+                            <select id="paymentMode" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                <option value="">Select Payment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="addExpense()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 px-4 rounded-md hover:from-blue-700 hover:to-indigo-800 transition duration-300 font-semibold shadow-md">
+                        <i class="fas fa-save mr-2"></i>Add Expense
+                    </button>
+                </div>
+        </div>
+
+        <div>
+                <div class="bg-white rounded-xl shadow-lg-200 p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                        <i class="fas fa-list mr-2 text-green-600"></i>Recent Week's
+                    </h2>
+                    <div id="expensesSummary" class="mb-4 p-4 bg-green-50 rounded-lg">
+                        <p class="text-lg font-semibold text-green-800">Total Expenses: <span id="totalAmount" class="text-2xl">₹0.00</span></p>
+                    </div>
+                    <div id="filters" class="mb-6 border border-slate-200 p-4 bg-gray-100 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-filter mr-2 text-blue-600"></i>Filter By
+                        </h3>
+                        <div class="flex flex-wrap gap-3 justify-center">
+                            <input type="text" placeholder="Search expenses..." id="search" class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            <select id="categoryFilter" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm min-w-40">
+                                <option value="">All Categories</option>
+                            </select>
+                            <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 font-semibold text-sm whitespace-nowrap shadow-md">
+                                <i class="fas fa-history mr-1"></i>Price
+                            </button>
+                            <button onclick="renderExpenses()" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-300 font-semibold text-sm whitespace-nowrap shadow-md">
+                                <i class="fas fa-check mr-1"></i>Apply Filters
+                            </button>
+                            <button onclick="clearFilters()" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-300 font-semibold text-sm whitespace-nowrap shadow-md">
+                                <i class="fas fa-times mr-1"></i>Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                    <div id="expensesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 "></div>
+                    <p id="noExpenses" class="text-center text-gray-500 mt-4">No expenses added yet. Add your first expense above!</p>
+                </div>
+        </div>
+    </main>
+</body>
     <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
@@ -21,5 +129,4 @@
         firebase.initializeApp(firebaseConfig);
     </script>
     <script src="app.js"></script>
-</body>
 </html>
