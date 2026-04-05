@@ -8,37 +8,41 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <header class="fixed inset-x-0 top-0 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-2 shadow-lg z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-lg font-bold"><i class="fas fa-wallet mr-2"></i>Xpenses</h1>
+    
+    <header class="fixed inset-x-0 top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+            <h1 class="text-base font-bold text-slate-800 tracking-tight">
+                <i class="fas fa-wallet mr-2 text-blue-600"></i>Xpenses
+            </h1>
             <nav>
-                <ul class="flex items-center space-x-4">
-                    <li><a href="index.html" class="hover:text-gray-200">Dashboard</a></li>
-                    <li><a href="#" class="hover:text-gray-200">Expenses</a></li>
-                    <li><a href="#" class="hover:text-gray-200">Reports</a></li>
+                <ul class="flex items-center gap-6 text-sm font-medium text-slate-500">
+                    <li><a href="index.html" class="hover:text-slate-800 transition-colors">Dashboard</a></li>
+                    <li><a href="database.html" class="hover:text-slate-800 transition-colors">Database</a></li>
+                    <li><a href="#" class="hover:text-slate-800 transition-colors">Reports</a></li>
                 </ul>
             </nav>
-            <div class="flex items-center space-x-4">
-                <button id="signInBtn" class="whenLoggedOut bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition duration-300 shadow-md flex items-center">
-                    <i class="fab fa-google mr-2"></i>Sign in with Google
+            <div class="flex items-center gap-3">
+                <button id="signInBtn" class="whenLoggedOut flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                    <i class="fab fa-google text-xs"></i> Sign in with Google
                 </button>
-                <div class="whenLoggedIn flex items-center space-x-4">
-                    <span id="userDetails" class="text-sm"></span>
-                    <button id="signOutBtn" class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition duration-300 shadow-md flex items-center">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+                <div class="whenLoggedIn flex items-center gap-3">
+                    <span id="userDetails" class="text-sm text-slate-500"></span>
+                    <button id="signOutBtn" class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-300 px-3 py-1.5 rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt text-xs"></i> Sign Out
                     </button>
                 </div>
             </div>
         </div>
     </header>
 
+
     <main class="container mx-auto mt-20 p-6">
         <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
             <h1 class="text-3xl font-bold mb-6 text-gray-800 flex items-center">
                 <i class="fas fa-database mr-3 text-blue-600"></i>Database
             </h1>
-            <p class="text-gray-600 mb-4">This is the database page for managing your expense data.</p>
-            <div id="databaseContent" class="space-y-4">
+            <p class="text-gray-600 mb-4">This is the complete database of all your expenses.</p>
+            <div id="dbContainer" class="space-y-4">
             </div>
         </div>
     </main>
@@ -57,6 +61,8 @@
         };
         firebase.initializeApp(firebaseConfig);
     </script>
-    <script src="app.js"></script>
+    <script src="JavaScript/main.js"></script>
+    <script src="JavaScript/expenses.js"></script>
+    <script src="JavaScript/firebase.js"></script>
 </body>
 </html>
