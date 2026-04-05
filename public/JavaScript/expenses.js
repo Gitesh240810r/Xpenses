@@ -39,32 +39,50 @@ function renderExpenses() {
             const dbContainer  = document.getElementById("dbContainer");
 
             if (expensesList) {
-                const today   = new Date();
-                const weekAgo = new Date(today);
-                weekAgo.setDate(today.getDate() - 7);
-                expensesList.innerHTML = "";
-
-                const search   = document.getElementById("search")?.value.toLowerCase() ?? "";
-                const category = document.getElementById("categoryFilter")?.value ?? "";
-
-                const filtered = expenses.filter(expense =>
-                    (search === "" || expense.description.toLowerCase().includes(search)) &&
-                    (category === "" || expense.category === category) &&
-                    (new Date(expense.date) >= weekAgo)
-                );
-
-                document.getElementById("noExpenses").classList.toggle("hidden", filtered.length > 0);
-
+                const filtered = getFiltered(expenses, expensesList);
+                updateDashboard(filtered);
+                
                 for (const expense of filtered) {
                     const card = createExpenseCard(expense);
                     expensesList.appendChild(card);
                 }
+            }
 
-                // Total
-                const totalAmount = filtered.reduce((sum, e) => sum + e.amount, 0);
-                document.getElementById("totalAmount").textContent = `₹${totalAmount.toFixed(2)}`;
+            // Database page
+            if (dbContainer) {
+                dbContainer.innerHTML = "";
+                for (const expense of expenses) {
+                    const card = createExpenseCard(expense);
+                    dbContainer.appendChild(card);
+                }
+            }
+        });
+}
 
-                // Chart
+function getFiltered(expenses, expensesList){
+    const today   = new Date();
+    const weekAgo = new Date(today);
+    weekAgo.setDate(today.getDate() - 7);
+    expensesList.innerHTML = "";
+
+    const search   = document.getElementById("search")?.value.toLowerCase() ?? "";
+    const category = document.getElementById("categoryFilter")?.value ?? "";
+
+    return filtered = expenses.filter(expense =>
+        (search === "" || expense.description.toLowerCase().includes(search)) &&
+        (category === "" || expense.category === category) &&
+        (new Date(expense.date) >= weekAgo)
+    );
+}
+
+function updateDashboard(filtered){
+    document.getElementById("noExpenses").classList.toggle("hidden", filtered.length > 0);
+    getSummary(filtered);
+    // Total
+    const totalAmount = filtered.reduce((sum, e) => sum + e.amount, 0);
+    document.getElementById("totalAmount").textContent = `₹${totalAmount}`;
+
+    // Chart
                 const categoryTotals = filtered.reduce((totals, expense) => {
                     totals[expense.category] = (totals[expense.category] || 0) + expense.amount;
                     return totals;
@@ -106,15 +124,19 @@ function renderExpenses() {
                         }
                     }
                 });
-            }
+}
 
-            // Database page
-            if (dbContainer) {
-                dbContainer.innerHTML = "";
-                for (const expense of expenses) {
-                    const card = createExpenseCard(expense);
-                    dbContainer.appendChild(card);
-                }
-            }
-        });
+function getSummary(filtered){
+    const mostExpensiveDiv = document.getElementById("mostExpensive");
+    const mostExpCatDiv = document.getElementById("mostExpCat");
+    const freqCategoryDiv = document.getElementById("freqCategory");
+    const freqMoP = document.getElementById("freqMoP");
+
+    const mostExpensive = [...filtered].sort((a,b) => b.amount - a.amount)[0];
+
+    mostExpensiveDiv.textContent = `(${mostExpensive.description}) - ₹${mostExpensive.amount}`;
+    mostExpCatDiv.textContent = mostExpensive.category;
+
+
+
 }
