@@ -137,6 +137,22 @@ function getSummary(filtered){
     mostExpensiveDiv.textContent = `(${mostExpensive.description}) - ₹${mostExpensive.amount}`;
     mostExpCatDiv.textContent = mostExpensive.category;
 
+}
+
+function updateReports(){ 
+    const month = document.getElementById("monthPicker").value;
+    console.log(month);
+    const user = auth.currentUser;
 
 
+    unsubscribe = db.collection("expenses").where("uid", "==", user.uid).onSnapshot(snapshot => {
+
+        const expenses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        expenses.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+        const monthlyExpenses = expenses.filter(expense => expense.date.startsWith(month));
+        console.log(monthlyExpenses);
+
+
+    });
 }
