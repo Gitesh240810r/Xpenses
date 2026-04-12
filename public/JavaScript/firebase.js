@@ -1,4 +1,4 @@
-const app = firebase.initializeApp(firebaseConfig);
+const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
@@ -19,9 +19,11 @@ auth.onAuthStateChanged(user => {
         whenLoggedOut.forEach(el => el.classList.add("hidden"));
         userDetails.textContent = `Logged in as ${user.displayName}`;
         renderExpenses();
+        updateReports();
     } else {
         whenLoggedIn.forEach(el  => el.classList.add("hidden"));
         whenLoggedOut.forEach(el => el.classList.remove("hidden"));
-        if (unsubscribe) unsubscribe();
+        if (unsubscribeExpenses) unsubscribeExpenses();
+        if (unsubscribeReports) unsubscribeReports();
     }
 });

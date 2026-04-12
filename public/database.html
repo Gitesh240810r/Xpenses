@@ -17,8 +17,8 @@
             <nav>
                 <ul class="flex items-center gap-6 text-sm font-medium text-slate-500">
                     <li><a href="index.html" class="hover:text-slate-800 transition-colors">Dashboard</a></li>
-                    <li><a href="database.html" class="hover:text-slate-800 transition-colors">Database</a></li>
-                    <li><a href="#" class="hover:text-slate-800 transition-colors">Reports</a></li>
+                    <li><a href="database.html" class="text-slate-800">Database</a></li>
+                    <li><a href="reports.html" class="hover:text-slate-800 transition-colors">Reports</a></li>
                 </ul>
             </nav>
             <div class="flex items-center gap-3">
@@ -42,6 +42,25 @@
                 <i class="fas fa-database mr-3 text-blue-600"></i>Database
             </h1>
             <p class="text-gray-600 mb-4">This is the complete database of all your expenses.</p>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Filter by</p>
+                <div class="flex flex-wrap gap-2.5">
+                    <input type="text" placeholder="Search expenses..." id="dbSearch"
+                        class="flex-1 min-w-36 px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white placeholder:text-slate-300 text-slate-800">
+                    <select id="dbCategoryFilter"
+                        class="px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white text-slate-700 min-w-40">
+                        <option value="">All Categories</option>
+                    </select>
+                    <button id="dbApplyFilters" onclick="renderExpenses()"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap">
+                        Apply
+                    </button>
+                    <button id="dbClearFilters" onclick="document.getElementById('dbSearch').value = ''; document.getElementById('dbCategoryFilter').value = ''; renderExpenses();"
+                        class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 border border-slate-200 hover:border-slate-300 rounded-lg transition-colors whitespace-nowrap bg-white">
+                        Clear
+                    </button>
+                </div>
+            </div>
             <div id="dbContainer" class="space-y-4">
             </div>
         </div>

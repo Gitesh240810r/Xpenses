@@ -27,7 +27,8 @@ const paymentModes = ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "Dig
 const categorySelect    = document.getElementById("category");
 const categoryFilter    = document.getElementById("categoryFilter");
 const paymentModeSelect = document.getElementById("paymentMode");
-
+const dbCategoryFilter = document.getElementById("dbCategoryFilter");
+if (dbCategoryFilter) for (const cat of categories) dbCategoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
 if (categorySelect)    for (const cat  of categories)   categorySelect.innerHTML  += `<option value="${cat}">${cat}</option>`;
 if (paymentModeSelect) for (const mode of paymentModes) paymentModeSelect.innerHTML += `<option value="${mode}">${mode}</option>`;
 if (categoryFilter)    for (const cat  of categories)   categoryFilter.innerHTML  += `<option value="${cat}">${cat}</option>`;
